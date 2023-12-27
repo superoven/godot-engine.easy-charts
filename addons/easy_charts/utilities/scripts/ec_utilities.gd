@@ -45,8 +45,10 @@ static func _find_min_max(values: Array) -> Dictionary:
 	for dim in temp:
 		min_ts.append(dim.min())
 		max_ts.append(dim.max())
-	_min = min(min_ts.min(), 0)
-	_max = max(0, max_ts.max())
+	_min = min(min_ts.min(), 1000000)
+	_max = max(-1000000, max_ts.max())
+	# _min = min(min_ts.min(), 0)
+	# _max = max(0, max_ts.max())
 	
 	return { min = _min, max = _max }
 
