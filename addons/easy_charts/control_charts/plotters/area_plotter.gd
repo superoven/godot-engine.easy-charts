@@ -18,11 +18,28 @@ func _draw_areas() -> void:
 	fp_augmented.insert(0, Vector2(fp_augmented[0].x, box.end.y))
 	fp_augmented.push_back(Vector2(fp_augmented[-1].x, box.end.y))
 	
-	var base_color: Color = function.get_color()
 	var colors: PoolColorArray = []
-	for point in fp_augmented:
-		base_color.a = range_lerp(point.y, box.end.y, box.position.y, 0.0, 0.5)
-		colors.push_back(base_color)
+	var gradient = function.props.get("gradient", null)
+	if gradient:
+		# var base_color: Color = function.get_color()
+		for point in fp_augmented:
+			var start = box.position.y
+			var end = box.end.y
+			var total_dist = end - start
+			var loc = point.y - start
+			# assert(total_dist >= 0)
+			# assert(loc >= 0)
+			# assert(end >= loc)
+			# assert(start <= loc)
+			var lerp_val = clamp(loc / float(total_dist), 0.0, 1.0)
+			# base_color.a = range_lerp(point.y, box.end.y, box.position.y, 0.0, 1.0)
+			var base_color = gradient.interpolate(lerp_val)
+			colors.push_back(base_color)
+	else:
+		var base_color: Color = function.get_color()
+		for point in fp_augmented:
+			base_color.a = range_lerp(point.y, box.end.y, box.position.y, 0.0, 1.0)
+			colors.push_back(base_color)
 	draw_polygon(fp_augmented, colors)
 
 func _draw() -> void:

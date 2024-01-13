@@ -48,6 +48,8 @@ var colors: Dictionary = {
 	origin = Color.dimgray
 }
 
+var area_color_gradient: Gradient = null
+
 var font_data: DynamicFontData = load("res://addons/easy_charts/utilities/assets/OpenSans-VariableFont_wdth,wght.ttf")
 var font: DynamicFont = DynamicFont.new()
 

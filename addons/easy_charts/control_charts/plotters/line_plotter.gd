@@ -37,6 +37,8 @@ func _get_stair_points() -> PoolVector2Array:
 
 
 func _draw() -> void:
+	if is_equal_approx(function.get_line_width(), 0.0):
+		return
 	match function.get_interpolation():
 		Function.Interpolation.LINEAR:
 			draw_polyline(
