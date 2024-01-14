@@ -14,13 +14,18 @@ var y: Array = []
 var x_labels: PoolStringArray = []
 var y_labels: PoolStringArray = []
 
+var _x_domain = null
+var _y_domain = null
+
 var chart_properties: ChartProperties = ChartProperties.new()
 
 ###########
 
-func plot(functions: Array, properties: ChartProperties = ChartProperties.new()) -> void:
+func plot(functions: Array, properties: ChartProperties = ChartProperties.new(), x_domain=null, y_domain=null) -> void:
 	self.functions = functions
 	self.chart_properties = properties
+	self._x_domain = x_domain
+	self._y_domain = y_domain
 	
 	theme.set("default_font", self.chart_properties.font)
 	_canvas.prepare_canvas(self.chart_properties)
@@ -77,8 +82,12 @@ func load_functions(functions: Array) -> void:
 
 func _draw() -> void:
 	# GridBox
-	var x_domain: Dictionary = calculate_domain(x, self.chart_properties.x_domain_round)
-	var y_domain: Dictionary = calculate_domain(y, self.chart_properties.y_domain_round)
+	var x_domain = self._x_domain
+	var y_domain = self._y_domain
+	if x_domain == null:
+		x_domain = calculate_domain(x, self.chart_properties.x_domain_round)
+	if y_domain == null:
+		y_domain = calculate_domain(y, self.chart_properties.y_domain_round)
 	
 	var plotbox_margins: Vector2 = calculate_plotbox_margins(x_domain, y_domain)
 	
