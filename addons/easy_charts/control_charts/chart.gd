@@ -24,7 +24,6 @@ var chart_properties: ChartProperties = ChartProperties.new()
 ###########
 
 func plot(functions: Array, properties: ChartProperties = ChartProperties.new(), x_domain=null, y_domain=null) -> void:
-	self._should_plot = true
 	self.functions = functions
 	self.chart_properties = properties
 	self._x_domain = x_domain
@@ -36,7 +35,23 @@ func plot(functions: Array, properties: ChartProperties = ChartProperties.new(),
 	function_legend.chart_properties = self.chart_properties
 	
 	load_functions(functions)
+	self._should_plot = false
+	self.hide()
 	self.update()
+	self.grid_box.hide()
+	self.grid_box.update()
+	yield(get_tree(), "idle_frame")
+	self._should_plot = true
+	self.show()
+	self.update()
+	self.grid_box.show()
+	self.grid_box.update()
+
+func clear():
+	self._should_plot = false
+	# self.hide()
+	self.update()
+	yield(get_tree(), "idle_frame")
 
 func get_function_plotter(function: Function) -> FunctionPlotter:
 	var plotter: FunctionPlotter

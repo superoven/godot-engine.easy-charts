@@ -12,7 +12,7 @@ var plot_box: Rect2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	self.hide()
 
 func set_domains(x_domain: Dictionary, y_domain: Dictionary) -> void:
 	self.x_domain = x_domain
