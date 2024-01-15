@@ -17,11 +17,14 @@ var y_labels: PoolStringArray = []
 var _x_domain = null
 var _y_domain = null
 
+var _should_plot = false
+
 var chart_properties: ChartProperties = ChartProperties.new()
 
 ###########
 
 func plot(functions: Array, properties: ChartProperties = ChartProperties.new(), x_domain=null, y_domain=null) -> void:
+	self._should_plot = true
 	self.functions = functions
 	self.chart_properties = properties
 	self._x_domain = x_domain
@@ -33,6 +36,7 @@ func plot(functions: Array, properties: ChartProperties = ChartProperties.new(),
 	function_legend.chart_properties = self.chart_properties
 	
 	load_functions(functions)
+	self.update()
 
 func get_function_plotter(function: Function) -> FunctionPlotter:
 	var plotter: FunctionPlotter
@@ -81,6 +85,8 @@ func load_functions(functions: Array) -> void:
 				function_legend.add_function(function)
 
 func _draw() -> void:
+	if not self._should_plot:
+		return
 	# GridBox
 	var x_domain = self._x_domain
 	var y_domain = self._y_domain
