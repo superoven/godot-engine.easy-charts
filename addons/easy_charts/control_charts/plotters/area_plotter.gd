@@ -43,4 +43,6 @@ func _draw_areas() -> void:
 	draw_polygon(fp_augmented, colors)
 
 func _draw() -> void:
+	if !self._should_draw:
+		return
 	_draw_areas()

@@ -11,6 +11,8 @@ var functions: Array = []
 var x: Array = []
 var y: Array = []
 
+var function_plotters = []
+
 var x_labels: PoolStringArray = []
 var y_labels: PoolStringArray = []
 
@@ -49,9 +51,9 @@ func plot(functions: Array, properties: ChartProperties = ChartProperties.new(),
 
 func clear():
 	self._should_plot = false
-	# self.hide()
+	for fp in self.functions_box.get_children():
+		fp.queue_free()
 	self.update()
-	yield(get_tree(), "idle_frame")
 
 func get_function_plotter(function: Function) -> FunctionPlotter:
 	var plotter: FunctionPlotter
@@ -89,6 +91,7 @@ func load_functions(functions: Array) -> void:
 		function_plotter.connect("point_entered", plot_box, "_on_point_entered")
 		function_plotter.connect("point_exited", plot_box, "_on_point_exited")
 		functions_box.add_child(function_plotter)
+		self.function_plotters.append(function_plotter)
 		
 		# Create legend
 		match function.get_type():
