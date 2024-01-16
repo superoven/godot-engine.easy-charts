@@ -29,9 +29,11 @@ func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
 			ECUtilities._map_domain(i, x_domain, x_sampled_domain),
 			ECUtilities._map_domain(function.y[i], y_domain, y_sampled_domain)
 		)
-		var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(0.0, y_domain, y_sampled_domain))
+		# var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(0.0, y_domain, y_sampled_domain))
+		var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(y_domain.lb, y_domain, y_sampled_domain))
 		bars.push_back(top)
 		bars.push_back(base)
+		print("x: %s y: %s top: %s base: %s" % [function.x[i], function.y[i], top, base])
 		bars_rects.append(Rect2(Vector2(top.x - bar_size, top.y), Vector2(bar_size * 2, base.y - top.y)))
 
 func _draw_bars() -> void:
