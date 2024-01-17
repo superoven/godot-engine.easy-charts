@@ -9,10 +9,14 @@ var bars: PoolVector2Array
 var bars_rects: Array
 var focused_bar_midpoint: Point
 
-var bar_size: float
+var bar_ratio_size: float
+var bar_alignment: int
+var histogram_width: float
 
 func _init(function: Function).(function) -> void:
-	self.bar_size = function.props.get("bar_size", 5.0)
+	self.bar_ratio_size = function.props.get("bar_ratio_size", 1.0)
+	self.histogram_width = function.props.get("histogram_width", 1.0)
+	self.bar_alignment = function.props.get("bar_alignment", Function.Alignment.CENTER)
 
 func _draw() -> void:
 	var box: Rect2 = get_box()
@@ -31,10 +35,18 @@ func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
 		)
 		# var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(0.0, y_domain, y_sampled_domain))
 		var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(y_domain.lb, y_domain, y_sampled_domain))
+		var width = (ECUtilities._map_domain(self.histogram_width, x_domain, x_sampled_domain) / float(2.0)) \
+			* self.bar_ratio_size
 		bars.push_back(top)
 		bars.push_back(base)
-		print("x: %s y: %s top: %s base: %s" % [function.x[i], function.y[i], top, base])
-		bars_rects.append(Rect2(Vector2(top.x - bar_size, top.y), Vector2(bar_size * 2, base.y - top.y)))
+		# print("x: %s y: %s top: %s base: %s" % [function.x[i], function.y[i], top, base])
+		# print("x_domain: %s width: %s" % [x_domain, width])
+		if self.bar_alignment == Function.Alignment.CENTER:
+			# bars_rects.append(Rect2(Vector2(top.x - bar_ratio_size, top.y), Vector2(bar_ratio_size * 2, base.y - top.y)))
+			bars_rects.append(Rect2(Vector2(top.x - (width * 0.5), top.y), Vector2(width, base.y - top.y)))
+		elif self.bar_alignment == Function.Alignment.LEFT:
+			# bars_rects.append(Rect2(Vector2(top.x, top.y), Vector2(bar_ratio_size * 2, base.y - top.y)))
+			bars_rects.append(Rect2(Vector2(top.x, top.y), Vector2(width, base.y - top.y)))
 
 func _draw_bars() -> void:
 	for bar in bars_rects:

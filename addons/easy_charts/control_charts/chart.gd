@@ -108,10 +108,26 @@ func _draw() -> void:
 	# GridBox
 	var x_domain = self._x_domain
 	var y_domain = self._y_domain
+	var local_x = self.x.duplicate(true)
+	var local_y = self.y.duplicate(true)
+	if self.chart_properties.force_x_domain_origin:
+		for f_x in local_x:
+			f_x.append(0.0)
+	if self.chart_properties.force_y_domain_origin:
+		for f_y in local_y:
+			f_y.append(0.0)
 	if x_domain == null:
-		x_domain = calculate_domain(x, self.chart_properties.x_domain_round)
+		x_domain = calculate_domain(
+			local_x,
+			self.chart_properties.x_domain_round,
+			self.chart_properties.x_domain_buffer
+		)
 	if y_domain == null:
-		y_domain = calculate_domain(y, self.chart_properties.y_domain_round)
+		y_domain = calculate_domain(
+			local_y,
+			self.chart_properties.y_domain_round,
+			self.chart_properties.y_domain_buffer
+		)
 	
 	var plotbox_margins: Vector2 = calculate_plotbox_margins(x_domain, y_domain)
 	
@@ -125,15 +141,23 @@ func _draw() -> void:
 	for function_plotter in functions_box.get_children():
 		function_plotter.update_values(x_domain, y_domain)
 
-func calculate_domain(values: Array, should_round=false) -> Dictionary:
+func calculate_domain(values: Array, should_round=false, additional_buffer=0.0) -> Dictionary:
 	for value_array in values:
 		if ECUtilities._contains_string(value_array):
 			return { lb = 0.0, ub = (value_array.size() - 1), has_decimals = false }
 	var min_max: Dictionary = ECUtilities._find_min_max(values)
 	if should_round:
-		return { lb = ECUtilities._round_min(min_max.min), ub = ECUtilities._round_max(min_max.max), has_decimals = ECUtilities._has_decimals(values) }
+		return {
+			lb = ECUtilities._round_min(min_max.min),
+			ub = ECUtilities._round_max(min_max.max) + additional_buffer,
+			has_decimals = ECUtilities._has_decimals(values) 
+		}
 	else:
-		return { lb = min_max.min, ub = min_max.max, has_decimals = ECUtilities._has_decimals(values) }
+		return {
+			lb = min_max.min,
+			ub = min_max.max + additional_buffer,
+			has_decimals = ECUtilities._has_decimals(values)
+		}
 
 func update_gridbox(x_domain: Dictionary, y_domain: Dictionary, x_labels: PoolStringArray, y_labels: PoolStringArray) -> void:
 	grid_box.set_domains(x_domain, y_domain)

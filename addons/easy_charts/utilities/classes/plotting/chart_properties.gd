@@ -8,6 +8,12 @@ var y_label: String
 var x_domain_round: bool = false
 var y_domain_round: bool = false
 
+var force_x_domain_origin: bool = false
+var force_y_domain_origin: bool = false
+
+var x_domain_buffer: float = 0.0
+var y_domain_buffer: float = 0.0
+
 # {n}_scale defines in how many sectors the grid will be divided.
 var x_scale: float = 5.0
 var y_scale: float = 2.0

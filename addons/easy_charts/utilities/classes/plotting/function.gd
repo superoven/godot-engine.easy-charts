@@ -23,6 +23,11 @@ enum Marker {
 	CROSS
 }
 
+enum Alignment {
+	LEFT,
+	CENTER
+}
+
 var x: Array
 var y: Array
 var name: String
