@@ -35,8 +35,11 @@ func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
 		)
 		# var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(0.0, y_domain, y_sampled_domain))
 		var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(y_domain.lb, y_domain, y_sampled_domain))
-		var width = (ECUtilities._map_domain(self.histogram_width, x_domain, x_sampled_domain) / float(2.0)) \
-			* self.bar_ratio_size
+		var next_loc = ECUtilities._map_domain(i + 1, x_domain, x_sampled_domain)
+		var width = (next_loc - top.x) * self.bar_ratio_size
+		# var width = ECUtilities._map_domain(self.histogram_width * 0.5, x_domain, x_sampled_domain) # \
+			# * self.bar_ratio_size
+		var left_offset = ((next_loc - top.x) - width) * 0.5
 		bars.push_back(top)
 		bars.push_back(base)
 		# print("x: %s y: %s top: %s base: %s" % [function.x[i], function.y[i], top, base])
@@ -46,7 +49,7 @@ func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
 			bars_rects.append(Rect2(Vector2(top.x - (width * 0.5), top.y), Vector2(width, base.y - top.y)))
 		elif self.bar_alignment == Function.Alignment.LEFT:
 			# bars_rects.append(Rect2(Vector2(top.x, top.y), Vector2(bar_ratio_size * 2, base.y - top.y)))
-			bars_rects.append(Rect2(Vector2(top.x, top.y), Vector2(width, base.y - top.y)))
+			bars_rects.append(Rect2(Vector2(top.x + left_offset, top.y), Vector2(width, base.y - top.y)))
 
 func _draw_bars() -> void:
 	for bar in bars_rects:

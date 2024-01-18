@@ -37,8 +37,9 @@ func _draw_areas() -> void:
 			colors.push_back(base_color)
 	else:
 		var base_color: Color = function.get_color()
+		var orig_alpha = base_color.a
 		for point in fp_augmented:
-			base_color.a = range_lerp(point.y, box.end.y, box.position.y, 0.0, 1.0)
+			base_color.a = range_lerp(point.y, box.end.y, box.position.y, 0.0, orig_alpha)
 			colors.push_back(base_color)
 	draw_polygon(fp_augmented, colors)
 
