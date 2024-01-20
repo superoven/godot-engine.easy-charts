@@ -30,16 +30,19 @@ func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
 	bars_rects = []
 	for i in function.x.size():
 		var top: Vector2 = Vector2(
-			ECUtilities._map_domain(i, x_domain, x_sampled_domain),
+			# ECUtilities._map_domain(i, x_domain, x_sampled_domain),
+			ECUtilities._map_domain(function.x[i], x_domain, x_sampled_domain),
 			ECUtilities._map_domain(function.y[i], y_domain, y_sampled_domain)
 		)
 		# var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(0.0, y_domain, y_sampled_domain))
 		var base: Vector2 = Vector2(top.x, ECUtilities._map_domain(y_domain.lb, y_domain, y_sampled_domain))
-		var next_loc = ECUtilities._map_domain(i + 1, x_domain, x_sampled_domain)
+		
+		var next_loc = ECUtilities._map_domain(function.x[i] + self.histogram_width, x_domain, x_sampled_domain)
 		var width = (next_loc - top.x) * self.bar_ratio_size
 		# var width = ECUtilities._map_domain(self.histogram_width * 0.5, x_domain, x_sampled_domain) # \
 			# * self.bar_ratio_size
 		var left_offset = ((next_loc - top.x) - width) * 0.5
+		print("i: %s x: %s x_domain: %s x_sampled_domain: %s" % [i, function.x[i], x_domain, x_sampled_domain])
 		bars.push_back(top)
 		bars.push_back(base)
 		# print("x: %s y: %s top: %s base: %s" % [function.x[i], function.y[i], top, base])
