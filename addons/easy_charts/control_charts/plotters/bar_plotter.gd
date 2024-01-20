@@ -42,7 +42,7 @@ func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
 		# var width = ECUtilities._map_domain(self.histogram_width * 0.5, x_domain, x_sampled_domain) # \
 			# * self.bar_ratio_size
 		var left_offset = ((next_loc - top.x) - width) * 0.5
-		print("i: %s x: %s x_domain: %s x_sampled_domain: %s" % [i, function.x[i], x_domain, x_sampled_domain])
+		# print("i: %s x: %s x_domain: %s x_sampled_domain: %s" % [i, function.x[i], x_domain, x_sampled_domain])
 		bars.push_back(top)
 		bars.push_back(base)
 		# print("x: %s y: %s top: %s base: %s" % [function.x[i], function.y[i], top, base])
