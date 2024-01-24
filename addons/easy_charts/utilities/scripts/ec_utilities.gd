@@ -53,6 +53,9 @@ static func _find_min_max(
 	_max = max(-1000000, max_ts.max())
 
 	if force_int_ticks:
+		# Add up the difference in the modulus
+		# to force the distance between the min 
+		# and max to even divide by "scale".
 		var dist = abs(_max - _min)
 		var mod_dist = fmod(dist, scale)
 		if not is_equal_approx(mod_dist, 0.0):
