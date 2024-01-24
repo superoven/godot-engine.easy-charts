@@ -35,7 +35,11 @@ static func _has_decimals(values: Array) -> bool:
 	
 	return false
 
-static func _find_min_max(values: Array) -> Dictionary:
+static func _find_min_max(
+		values: Array,
+		scale: float,
+		force_int_ticks: bool
+	) -> Dictionary:
 	var temp: Array = values.duplicate(true)
 	var _min: float
 	var _max: float
@@ -47,8 +51,13 @@ static func _find_min_max(values: Array) -> Dictionary:
 		max_ts.append(dim.max())
 	_min = min(min_ts.min(), 1000000)
 	_max = max(-1000000, max_ts.max())
-	# _min = min(min_ts.min(), 0)
-	# _max = max(0, max_ts.max())
+
+	if force_int_ticks:
+		var dist = abs(_max - _min)
+		var mod_dist = fmod(dist, scale)
+		if not is_equal_approx(mod_dist, 0.0):
+			var delta = (scale - mod_dist)
+			_max += delta
 	
 	return { min = _min, max = _max }
 

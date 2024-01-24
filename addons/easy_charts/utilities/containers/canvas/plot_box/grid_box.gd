@@ -81,7 +81,7 @@ func _draw_vertical_grid() -> void:
 		vertical_ticks.append(bottom + Vector2(0, get_parent().chart_properties.x_tick_size))
 		
 		# Draw V Tick Labels
-		if get_parent().chart_properties.show_tick_labels:
+		if get_parent().chart_properties.show_x_tick_labels:
 			var tick_lbl: String = _get_tick_label(_x, x_val, x_domain.has_decimals, self.x_labels)
 			draw_string(
 				get_parent().chart_properties.font, 
@@ -123,7 +123,7 @@ func _draw_horizontal_grid() -> void:
 		horizontal_ticks.append(left - Vector2(get_parent().chart_properties.y_tick_size, 0))
 		
 		# Draw H Tick Labels
-		if get_parent().chart_properties.show_tick_labels:
+		if get_parent().chart_properties.show_y_tick_labels:
 			var tick_lbl: String = _get_tick_label(_y, y_val, y_domain.has_decimals, y_labels)
 			draw_string(
 				get_parent().chart_properties.font, 

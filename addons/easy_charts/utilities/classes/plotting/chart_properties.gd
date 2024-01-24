@@ -11,6 +11,9 @@ var y_domain_round: bool = false
 var force_x_domain_origin: bool = false
 var force_y_domain_origin: bool = false
 
+var force_x_int_ticks: bool = false
+var force_y_int_ticks: bool = false
+
 var x_domain_buffer: float = 0.0
 var y_domain_buffer: float = 0.0
 
@@ -35,8 +38,9 @@ var draw_vertical_grid: bool = true
 var draw_horizontal_grid: bool = true
 var draw_ticks: bool = true
 var draw_origin: bool = false
-var draw_grid_box: bool = true 
-var show_tick_labels: bool = true
+var draw_grid_box: bool = true
+var show_x_tick_labels: bool = true
+var show_y_tick_labels: bool = true
 var show_x_label: bool = true
 var show_y_label: bool = true
 var show_title: bool = true

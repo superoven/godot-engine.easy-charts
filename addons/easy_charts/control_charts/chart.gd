@@ -35,8 +35,9 @@ func plot(functions: Array, properties: ChartProperties = ChartProperties.new(),
 	_canvas.prepare_canvas(self.chart_properties)
 	plot_box.chart_properties = self.chart_properties
 	function_legend.chart_properties = self.chart_properties
-	
 	load_functions(functions)
+
+	# Some jank that I made to allow the chart to exist without being drawn on
 	self._should_plot = false
 	self.hide()
 	self.update()
@@ -120,13 +121,17 @@ func _draw() -> void:
 		x_domain = calculate_domain(
 			local_x,
 			self.chart_properties.x_domain_round,
-			self.chart_properties.x_domain_buffer
+			self.chart_properties.x_domain_buffer,
+			self.chart_properties.force_x_int_ticks,
+			self.chart_properties.x_scale
 		)
 	if y_domain == null:
 		y_domain = calculate_domain(
 			local_y,
 			self.chart_properties.y_domain_round,
-			self.chart_properties.y_domain_buffer
+			self.chart_properties.y_domain_buffer,
+			self.chart_properties.force_y_int_ticks,
+			self.chart_properties.y_scale
 		)
 	
 	var plotbox_margins: Vector2 = calculate_plotbox_margins(x_domain, y_domain)
@@ -141,11 +146,21 @@ func _draw() -> void:
 	for function_plotter in functions_box.get_children():
 		function_plotter.update_values(x_domain, y_domain)
 
-func calculate_domain(values: Array, should_round=false, additional_buffer=0.0) -> Dictionary:
+func calculate_domain(
+		values: Array,
+		should_round=false,
+		additional_buffer=0.0,
+		force_int_ticks=false,
+		scale=1.0
+	) -> Dictionary:
 	for value_array in values:
 		if ECUtilities._contains_string(value_array):
 			return { lb = 0.0, ub = (value_array.size() - 1), has_decimals = false }
-	var min_max: Dictionary = ECUtilities._find_min_max(values)
+	var min_max: Dictionary = ECUtilities._find_min_max(
+		values,
+		scale,
+		force_int_ticks
+	)
 	if should_round:
 		return {
 			lb = ECUtilities._round_min(min_max.min),
@@ -170,7 +185,7 @@ func calculate_plotbox_margins(x_domain: Dictionary, y_domain: Dictionary) -> Ve
 		chart_properties.y_tick_size
 	)
 	
-	if chart_properties.show_tick_labels:
+	if chart_properties.show_y_tick_labels or chart_properties.show_x_tick_labels:
 		var x_ticklabel_size: Vector2
 		var y_ticklabel_size: Vector2
 		
@@ -183,8 +198,10 @@ func calculate_plotbox_margins(x_domain: Dictionary, y_domain: Dictionary) -> Ve
 				y_ticklabel_size = chart_properties.font.get_string_size(y_max_formatted)
 		else:
 			y_ticklabel_size = chart_properties.font.get_string_size(y_max_formatted)
-		
-		plotbox_margins.x += y_ticklabel_size.x + chart_properties.x_ticklabel_space
-		plotbox_margins.y += chart_properties.font.size + chart_properties.y_ticklabel_space
+
+		if chart_properties.show_y_tick_labels:
+			plotbox_margins.x += y_ticklabel_size.x + chart_properties.x_ticklabel_space
+		if chart_properties.show_x_tick_labels:
+			plotbox_margins.y += chart_properties.font.size + chart_properties.y_ticklabel_space
 	
 	return plotbox_margins
