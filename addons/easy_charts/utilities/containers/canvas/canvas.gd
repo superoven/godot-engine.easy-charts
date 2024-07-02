@@ -1,6 +1,7 @@
 extends Control
 class_name Canvas
 
+onready var _canvas_container: VBoxContainer = $CanvasContainer
 onready var _title_lbl: Label = $CanvasContainer/Title
 onready var _x_lbl: Label = $CanvasContainer/DataContainer/PlotContainer/XLabel
 onready var _y_lbl: Label = $CanvasContainer/DataContainer/YLabel
@@ -10,6 +11,8 @@ func _ready():
 	pass # Replace with function body.
 
 func prepare_canvas(chart_properties: ChartProperties) -> void:
+
+	self._canvas_container._set_position(Vector2())
 	
 	if chart_properties.draw_frame:
 		set_frame_color(chart_properties.colors.frame)

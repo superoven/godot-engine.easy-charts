@@ -181,8 +181,8 @@ func update_gridbox(x_domain: Dictionary, y_domain: Dictionary, x_labels: PoolSt
 
 func calculate_plotbox_margins(x_domain: Dictionary, y_domain: Dictionary) -> Vector2:
 	var plotbox_margins: Vector2 = Vector2(
-		chart_properties.x_tick_size,
-		chart_properties.y_tick_size
+		chart_properties.x_tick_size if chart_properties.show_y_tick_labels else 0.0,
+		chart_properties.y_tick_size if chart_properties.show_x_tick_labels else 0.0
 	)
 	
 	if chart_properties.show_y_tick_labels or chart_properties.show_x_tick_labels:

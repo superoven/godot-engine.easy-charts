@@ -9,7 +9,8 @@ var focused_point: Point
 var focused_function: Function
 
 var box_margins: Vector2 # Margins relative to this rect, in order to make space for ticks and tick_labels
-var plot_inner_offset: Vector2 = Vector2(15, 15) # How many pixels from the broders should the plot be
+# var plot_inner_offset: Vector2 = Vector2(15, 15) # How many pixels from the borders should the plot be
+var plot_inner_offset: Vector2 = Vector2(0, 0) # How many pixels from the borders should the plot be
 
 var chart_properties: ChartProperties
 
@@ -19,6 +20,7 @@ func get_box() -> Rect2:
 #	box.position.y += box_margins.y
 	box.end.x -= box_margins.x
 	box.end.y -= box_margins.y
+	# print("get_box(): %s" % [box])
 	return box
 
 func get_plot_box() -> Rect2:
@@ -27,6 +29,7 @@ func get_plot_box() -> Rect2:
 	inner_box.position.y += plot_inner_offset.y
 	inner_box.end.x -= plot_inner_offset.x * 2
 	inner_box.end.y -= plot_inner_offset.y * 2
+	# print("get_plot_box(): %s inner_offset: %s" % [box, plot_inner_offset])
 	return inner_box
 
 func _on_point_entered(point: Point, function: Function, props: Dictionary = {}) -> void:
