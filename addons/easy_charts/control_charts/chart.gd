@@ -7,9 +7,11 @@ onready var grid_box: GridBox = $"%GridBox"
 onready var functions_box: Control = $"%FunctionsBox"
 onready var function_legend: FunctionLegend = $"%FunctionLegend"
 
+const MAX_NUM_FUNCTIONS = 11
 var functions: Array = []
 var x: Array = []
 var y: Array = []
+# var _function_nodes: Array = []
 
 var function_plotters = []
 
@@ -24,6 +26,16 @@ var _should_plot = false
 var chart_properties: ChartProperties = ChartProperties.new()
 
 ###########
+
+func _ready():
+	for i in range(self.MAX_NUM_FUNCTIONS):
+		# Jank: We are only supporting bar plotter at the moment
+		var function_plotter = BarPlotter.new()
+		function_plotter.connect("point_entered", self.plot_box, "_on_point_entered")
+		function_plotter.connect("point_exited", self.plot_box, "_on_point_exited")
+		self.functions_box.add_child(function_plotter)
+		self.function_plotters.append(function_plotter)
+
 
 func plot(functions: Array, properties: ChartProperties = ChartProperties.new(), x_domain=null, y_domain=null) -> void:
 	self.functions = functions
@@ -43,7 +55,7 @@ func plot(functions: Array, properties: ChartProperties = ChartProperties.new(),
 	self.update()
 	self.grid_box.hide()
 	self.grid_box.update()
-	yield(get_tree(), "idle_frame")
+	# yield(get_tree(), "idle_frame")
 	self._should_plot = true
 	self.show()
 	self.update()
@@ -52,24 +64,24 @@ func plot(functions: Array, properties: ChartProperties = ChartProperties.new(),
 
 func clear():
 	self._should_plot = false
-	for fp in self.functions_box.get_children():
-		fp.queue_free()
+	# for fp in self.functions_box.get_children():
+	# 	fp.queue_free()
 	self.update()
 
-func get_function_plotter(function: Function) -> FunctionPlotter:
-	var plotter: FunctionPlotter
-	match function.get_type():
-		Function.Type.SCATTER:
-			plotter = ScatterPlotter.new(function)
-		Function.Type.LINE:
-			plotter = LinePlotter.new(function)
-		Function.Type.AREA:
-			plotter = AreaPlotter.new(function)
-		Function.Type.PIE:
-			plotter = PiePlotter.new(function)
-		Function.Type.BAR:
-			plotter = BarPlotter.new(function)
-	return plotter
+# func get_function_plotter(function: Function) -> FunctionPlotter:
+# 	var plotter: FunctionPlotter
+# 	match function.get_type():
+# 		Function.Type.SCATTER:
+# 			plotter = ScatterPlotter.new(function)
+# 		Function.Type.LINE:
+# 			plotter = LinePlotter.new(function)
+# 		Function.Type.AREA:
+# 			plotter = AreaPlotter.new(function)
+# 		Function.Type.PIE:
+# 			plotter = PiePlotter.new(function)
+# 		Function.Type.BAR:
+# 			plotter = BarPlotter.new(function)
+# 	return plotter
 
 func load_functions(functions: Array) -> void:
 	self.x = []
@@ -77,7 +89,9 @@ func load_functions(functions: Array) -> void:
 	
 	function_legend.clear()
 	
-	for function in functions:
+	# for function in functions:
+	for j in range(len(functions)):
+		var function = functions[j]
 		# Load x and y values
 		self.x.append(function.x)
 		self.y.append(function.y)
@@ -88,20 +102,22 @@ func load_functions(functions: Array) -> void:
 				self.x_labels = function.x
 		
 		# Create FunctionPlotter
-		var function_plotter: FunctionPlotter = get_function_plotter(function)
-		function_plotter.connect("point_entered", plot_box, "_on_point_entered")
-		function_plotter.connect("point_exited", plot_box, "_on_point_exited")
-		functions_box.add_child(function_plotter)
-		self.function_plotters.append(function_plotter)
+		# var function_plotter: FunctionPlotter = get_function_plotter(function)
+		# function_plotter.connect("point_entered", plot_box, "_on_point_entered")
+		# function_plotter.connect("point_exited", plot_box, "_on_point_exited")
+		# functions_box.add_child(function_plotter)
+		# self.function_plotters.append(function_plotter)
+		self.function_plotters[j].set_function(function)
 		
-		# Create legend
-		match function.get_type():
-			Function.Type.PIE:
-				for i in function.x.size():
-					var interp_color: Color = function.get_gradient().interpolate(float(i) / float(function.x.size()))
-					function_legend.add_label(function.get_type(), interp_color, Function.Marker.NONE, function.y[i])
-			_:
-				function_legend.add_function(function)
+		# # Create legend
+		# match function.get_type():
+		# 	Function.Type.PIE:
+		# 		for i in function.x.size():
+		# 			var interp_color: Color = function.get_gradient().interpolate(float(i) / float(function.x.size()))
+		# 			function_legend.add_label(function.get_type(), interp_color, Function.Marker.NONE, function.y[i])
+		# 	_:
+		# 		function_legend.add_function(function)
+		function_legend.add_function(function, j)
 
 func _draw() -> void:
 	if not self._should_plot:

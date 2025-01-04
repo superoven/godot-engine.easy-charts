@@ -5,6 +5,8 @@ class_name BarPlotter
 signal point_entered(point, function)
 signal point_exited(point, function)
 
+# var function
+
 var bars: PoolVector2Array
 var bars_rects: Array
 var focused_bar_midpoint: Point
@@ -13,12 +15,20 @@ var bar_ratio_size: float
 var bar_alignment: int
 var histogram_width: float
 
-func _init(function: Function).(function) -> void:
+# func _init(function: Function).(function) -> void:
+
+# func _init():
+
+
+func set_function(_function):
+	self.function = _function
 	self.bar_ratio_size = function.props.get("bar_ratio_size", 1.0)
 	self.histogram_width = function.props.get("histogram_width", 1.0)
 	self.bar_alignment = function.props.get("bar_alignment", Function.Alignment.CENTER)
 
 func _draw() -> void:
+	if self.function == null:
+		return
 	var box: Rect2 = get_box()
 	var x_sampled_domain: Dictionary = { lb = box.position.x, ub = box.end.x }
 	var y_sampled_domain: Dictionary = { lb = box.end.y, ub = box.position.y }
@@ -26,6 +36,8 @@ func _draw() -> void:
 	_draw_bars()
 
 func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
+	if self.function == null:
+		return
 	bars = []
 	bars_rects = []
 	for i in function.x.size():
@@ -55,10 +67,14 @@ func sample(x_sampled_domain: Dictionary, y_sampled_domain: Dictionary) -> void:
 			bars_rects.append(Rect2(Vector2(top.x + left_offset, top.y), Vector2(width, base.y - top.y)))
 
 func _draw_bars() -> void:
+	if self.function == null:
+		return
 	for bar in bars_rects:
 		draw_rect(bar, function.get_color())
 
 func _input(event: InputEvent) -> void:
+	if self.function == null:
+		return
 	if event is InputEventMouse:
 		for i in bars_rects.size():
 			if bars_rects[i].grow(5).abs().has_point(get_relative_position(event.position)):

@@ -7,16 +7,19 @@ var y_domain: Dictionary
 
 var _should_draw = true
 
-func _init(function: Function) -> void:
+# func _init(function: Function) -> void:
+# 	self.function = function
+
+func set_function(function: Function) -> void:
 	self.function = function
 
-func _ready() -> void:
-	set_process_input(get_chart_properties().interactive)
+# func _ready() -> void:
+# 	set_process_input(get_chart_properties().interactive)
 
 func clear():
 	self._should_draw = false
 	self.update()
-	yield(get_tree(), "idle_frame")
+	# yield(get_tree(), "idle_frame")
 	self._should_draw = true
 
 func update_values(x_domain: Dictionary, y_domain: Dictionary) -> void:
