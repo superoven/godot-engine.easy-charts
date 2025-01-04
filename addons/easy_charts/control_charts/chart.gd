@@ -23,6 +23,8 @@ var _y_domain = null
 
 var _should_plot = false
 
+var _plotbox_margins = Vector2(0.0, 0.0)
+
 var chart_properties: ChartProperties = ChartProperties.new()
 
 ###########
@@ -195,6 +197,11 @@ func update_gridbox(x_domain: Dictionary, y_domain: Dictionary, x_labels: PoolSt
 	grid_box.set_labels(x_labels, y_labels)
 	grid_box.update()
 
+func get_plotbox():
+	# return self.grid_box.box
+	return self.plot_box.get_box()
+	# return self._plotbox_margins
+
 func calculate_plotbox_margins(x_domain: Dictionary, y_domain: Dictionary) -> Vector2:
 	var plotbox_margins: Vector2 = Vector2(
 		chart_properties.x_tick_size if chart_properties.show_y_tick_labels else 0.0,
@@ -219,5 +226,6 @@ func calculate_plotbox_margins(x_domain: Dictionary, y_domain: Dictionary) -> Ve
 			plotbox_margins.x += y_ticklabel_size.x + chart_properties.x_ticklabel_space
 		if chart_properties.show_x_tick_labels:
 			plotbox_margins.y += chart_properties.font.size + chart_properties.y_ticklabel_space
-	
+
+	self._plotbox_margins = plotbox_margins
 	return plotbox_margins
