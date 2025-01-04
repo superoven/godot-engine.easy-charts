@@ -12,7 +12,7 @@ func _ready():
 
 func prepare_canvas(chart_properties: ChartProperties) -> void:
 
-	self._canvas_container._set_position(Vector2())
+	# self._canvas_container._set_position(Vector2())
 	
 	if chart_properties.draw_frame:
 		set_frame_color(chart_properties.colors.frame)

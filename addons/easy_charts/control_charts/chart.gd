@@ -201,7 +201,7 @@ func get_plotbox_progress_bounds():
 	# return self.grid_box.box
 	var plotbox = self.plot_box.get_plot_box()
 	var offset = self.plot_box.get_global_position() - self.get_global_position()
-	print("self pos: %s plotbox pos: %s plotbox: %s" % [self.get_global_position(), self.plot_box.get_global_position(), plotbox])
+	# print("self pos: %s plotbox pos: %s plotbox: %s" % [self.get_global_position(), self.plot_box.get_global_position(), plotbox])
 	plotbox.position += offset
 	return plotbox
 	# return self._plotbox_margins
