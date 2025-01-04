@@ -52,11 +52,11 @@ func plot(functions: Array, properties: ChartProperties = ChartProperties.new(),
 	load_functions(functions)
 
 	# Some jank that I made to allow the chart to exist without being drawn on
-	self._should_plot = false
-	self.hide()
-	self.update()
-	self.grid_box.hide()
-	self.grid_box.update()
+	# self._should_plot = false
+	# self.hide()
+	# self.update()
+	# self.grid_box.hide()
+	# self.grid_box.update()
 	# yield(get_tree(), "idle_frame")
 	self._should_plot = true
 	self.show()
@@ -197,9 +197,13 @@ func update_gridbox(x_domain: Dictionary, y_domain: Dictionary, x_labels: PoolSt
 	grid_box.set_labels(x_labels, y_labels)
 	grid_box.update()
 
-func get_plotbox():
+func get_plotbox_progress_bounds():
 	# return self.grid_box.box
-	return self.plot_box.get_box()
+	var plotbox = self.plot_box.get_plot_box()
+	var offset = self.plot_box.get_global_position() - self.get_global_position()
+	print("self pos: %s plotbox pos: %s plotbox: %s" % [self.get_global_position(), self.plot_box.get_global_position(), plotbox])
+	plotbox.position += offset
+	return plotbox
 	# return self._plotbox_margins
 
 func calculate_plotbox_margins(x_domain: Dictionary, y_domain: Dictionary) -> Vector2:
