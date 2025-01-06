@@ -99,17 +99,17 @@ func _draw_labels(radius: float, center: Vector2, ratios: PoolRealArray) -> void
 			Color.white
 		)
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouse:
-		for i in slices.size():
-			if Geometry.is_point_in_polygon(get_relative_position(event.position), slices[i]):
-				var point: Point = Point.new(self.box.get_center() + slices_dirs[i] * self.radius * 0.5, { x = function.x[i], y = function.y[i] })
-				if focused_point == point:
-					return
-				else:
-					focused_point = point
-					emit_signal("point_entered", focused_point, function, { interpolation_index = float(i) / float(slices.size() - 1)})
-					return
-		# Mouse is not in any slice's box
-		emit_signal("point_exited", focused_point, function)
-		focused_point = null
+# func _input(event: InputEvent) -> void:
+# 	if event is InputEventMouse:
+# 		for i in slices.size():
+# 			if Geometry.is_point_in_polygon(get_relative_position(event.position), slices[i]):
+# 				var point: Point = Point.new(self.box.get_center() + slices_dirs[i] * self.radius * 0.5, { x = function.x[i], y = function.y[i] })
+# 				if focused_point == point:
+# 					return
+# 				else:
+# 					focused_point = point
+# 					emit_signal("point_entered", focused_point, function, { interpolation_index = float(i) / float(slices.size() - 1)})
+# 					return
+# 		# Mouse is not in any slice's box
+# 		emit_signal("point_exited", focused_point, function)
+# 		focused_point = null

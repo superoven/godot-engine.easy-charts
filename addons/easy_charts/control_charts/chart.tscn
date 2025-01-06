@@ -21,6 +21,8 @@ draw_center = false
 [node name="Chart" type="PanelContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = -512.0
+margin_bottom = -768.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -32,8 +34,8 @@ __meta__ = {
 }
 
 [node name="Canvas" type="PanelContainer" parent="."]
-margin_right = 1024.0
-margin_bottom = 600.0
+margin_right = 768.0
+margin_bottom = 256.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -46,43 +48,43 @@ __meta__ = {
 [node name="CanvasContainer" type="VBoxContainer" parent="Canvas"]
 margin_left = 15.0
 margin_top = 15.0
-margin_right = 1009.0
-margin_bottom = 585.0
+margin_right = 753.0
+margin_bottom = 241.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="Title" type="Label" parent="Canvas/CanvasContainer"]
-margin_right = 994.0
+margin_right = 738.0
 margin_bottom = 14.0
 text = "{title}"
 align = 1
 
 [node name="DataContainer" type="HBoxContainer" parent="Canvas/CanvasContainer"]
 margin_top = 24.0
-margin_right = 994.0
-margin_bottom = 570.0
+margin_right = 738.0
+margin_bottom = 226.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="YLabel" type="Label" parent="Canvas/CanvasContainer/DataContainer"]
-margin_top = 266.0
+margin_top = 94.0
 margin_right = 48.0
-margin_bottom = 280.0
+margin_bottom = 108.0
 text = "{ylabel}"
 
 [node name="PlotContainer" type="VBoxContainer" parent="Canvas/CanvasContainer/DataContainer"]
 margin_left = 58.0
-margin_right = 984.0
-margin_bottom = 546.0
+margin_right = 728.0
+margin_bottom = 202.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlotBox" type="Control" parent="Canvas/CanvasContainer/DataContainer/PlotContainer"]
 unique_name_in_owner = true
-margin_right = 926.0
-margin_bottom = 528.0
+margin_right = 670.0
+margin_bottom = 184.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource( 4 )
@@ -107,7 +109,6 @@ __meta__ = {
 unique_name_in_owner = true
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_default_cursor_shape = 3
 __meta__ = {
 "_edit_lock_": true
 }
@@ -119,15 +120,15 @@ margin_right = -47.0
 margin_bottom = -17.0
 
 [node name="XLabel" type="Label" parent="Canvas/CanvasContainer/DataContainer/PlotContainer"]
-margin_top = 532.0
-margin_right = 926.0
-margin_bottom = 546.0
+margin_top = 188.0
+margin_right = 670.0
+margin_bottom = 202.0
 text = "{xlabel}"
 align = 1
 
 [node name="FunctionLegend" parent="Canvas/CanvasContainer/DataContainer" instance=ExtResource( 6 )]
 unique_name_in_owner = true
 use_parent_material = true
-margin_left = 994.0
-margin_right = 994.0
-margin_bottom = 546.0
+margin_left = 738.0
+margin_right = 738.0
+margin_bottom = 202.0

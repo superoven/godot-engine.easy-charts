@@ -65,16 +65,16 @@ func draw_function_point(position: Vector2) -> void:
 		_, Function.Marker.CIRCLE:
 			draw_circle(position, point_size, function.get_color())
 
-func _input(event: InputEvent) -> void:
-	if event is InputEventMouse:
-		for point in points:
-			if Geometry.is_point_in_circle(get_relative_position(event.position), point.position, self.point_size * 4):
-				if focused_point == point:
-					return
-				else:
-					focused_point = point
-					emit_signal("point_entered", point, function)
-					return
-		# Mouse is not in any point's box
-		emit_signal("point_exited", focused_point, function)
-		focused_point = null
+# func _input(event: InputEvent) -> void:
+# 	if event is InputEventMouse:
+# 		for point in points:
+# 			if Geometry.is_point_in_circle(get_relative_position(event.position), point.position, self.point_size * 4):
+# 				if focused_point == point:
+# 					return
+# 				else:
+# 					focused_point = point
+# 					emit_signal("point_entered", point, function)
+# 					return
+# 		# Mouse is not in any point's box
+# 		emit_signal("point_exited", focused_point, function)
+# 		focused_point = null

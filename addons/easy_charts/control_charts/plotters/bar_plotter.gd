@@ -72,19 +72,19 @@ func _draw_bars() -> void:
 	for bar in bars_rects:
 		draw_rect(bar, function.get_color())
 
-func _input(event: InputEvent) -> void:
-	if self.function == null:
-		return
-	if event is InputEventMouse:
-		for i in bars_rects.size():
-			if bars_rects[i].grow(5).abs().has_point(get_relative_position(event.position)):
-				var point: Point = Point.new(bars_rects[i].get_center(), { x = function.x[i], y = function.y[i]})
-				if focused_bar_midpoint == point:
-					return
-				else:
-					focused_bar_midpoint = point
-					emit_signal("point_entered", point, function)
-					return
-		# Mouse is not in any point's box
-		emit_signal("point_exited", focused_bar_midpoint, function)
-		focused_bar_midpoint = null
+# func _input(event: InputEvent) -> void:
+# 	if self.function == null:
+# 		return
+# 	if event is InputEventMouse:
+# 		for i in bars_rects.size():
+# 			if bars_rects[i].grow(5).abs().has_point(get_relative_position(event.position)):
+# 				var point: Point = Point.new(bars_rects[i].get_center(), { x = function.x[i], y = function.y[i]})
+# 				if focused_bar_midpoint == point:
+# 					return
+# 				else:
+# 					focused_bar_midpoint = point
+# 					emit_signal("point_entered", point, function)
+# 					return
+# 		# Mouse is not in any point's box
+# 		emit_signal("point_exited", focused_bar_midpoint, function)
+# 		focused_bar_midpoint = null
