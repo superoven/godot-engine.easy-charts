@@ -7,7 +7,7 @@ onready var grid_box: GridBox = $"%GridBox"
 onready var functions_box: Control = $"%FunctionsBox"
 onready var function_legend: FunctionLegend = $"%FunctionLegend"
 
-const MAX_NUM_FUNCTIONS = 3
+const MAX_NUM_FUNCTIONS = 4
 var functions: Array = []
 var x: Array = []
 var y: Array = []
